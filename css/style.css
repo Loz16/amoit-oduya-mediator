@@ -428,6 +428,8 @@ section, header, footer { position: relative; }
 
 .contact__label { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--terracotta-dark); margin-bottom: 0.8rem; }
 .contact__right p { font-size: 0.92rem; margin-bottom: 0.5rem; }
+.contact__right a { text-decoration: underline; text-decoration-color: rgba(0,0,0,0.2); text-underline-offset: 3px; }
+.contact__right a:hover { color: var(--terracotta-dark); }
 .contact__social { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
 .contact__social a {
   width: 36px; height: 36px;
