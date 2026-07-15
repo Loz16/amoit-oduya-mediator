@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://loz16.github.io/amoit-oduya-mediator/sitemap.xml
