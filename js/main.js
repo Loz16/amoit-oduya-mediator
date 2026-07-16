@@ -9,16 +9,40 @@ if (burger && navLinks) {
   });
 }
 
-// Contact form — placeholder handling.
-// NOTE: this only shows a confirmation message right now. To actually
-// receive submissions, wire this up to a form backend like Formspree,
-// Netlify Forms, or your own email service.
+// Contact form — submits to Formspree without reloading the page,
+// and shows an inline confirmation or error message.
 const contactForm = document.getElementById('contactForm');
+const formStatus = document.getElementById('formStatus');
 
 if (contactForm) {
-  contactForm.addEventListener('submit', (e) => {
+  contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    alert("Thanks for reaching out! (This is a placeholder — connect this form to a real service like Formspree so messages actually get delivered.)");
-    contactForm.reset();
+
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    formStatus.textContent = 'Sending...';
+    formStatus.className = 'contact__form-status';
+
+    try {
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        formStatus.textContent = "Thank you — your message has been sent. I'll be in touch soon.";
+        formStatus.classList.add('contact__form-status--success');
+        contactForm.reset();
+      } else {
+        formStatus.textContent = "Something went wrong. Please try again, or email directly.";
+        formStatus.classList.add('contact__form-status--error');
+      }
+    } catch (err) {
+      formStatus.textContent = "Network error — please check your connection and try again.";
+      formStatus.classList.add('contact__form-status--error');
+    } finally {
+      submitBtn.disabled = false;
+    }
   });
 }
